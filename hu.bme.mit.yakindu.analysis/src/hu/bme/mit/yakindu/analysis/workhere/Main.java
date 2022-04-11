@@ -5,6 +5,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.junit.Test;
 import org.yakindu.sct.model.sgraph.State;
 import org.yakindu.sct.model.sgraph.Statechart;
+import org.yakindu.sct.model.sgraph.Transition;
 
 import hu.bme.mit.model2gml.Model2GML;
 import hu.bme.mit.yakindu.analysis.modelmanager.ModelManager;
@@ -25,13 +26,29 @@ public class Main {
 		// Reading model
 		Statechart s = (Statechart) root;
 		TreeIterator<EObject> iterator = s.eAllContents();
+		int i = 0;
 		while (iterator.hasNext()) {
 			EObject content = iterator.next();
 			if(content instanceof State) {
+				i++;
 				State state = (State) content;
-				System.out.println(state.getName());
+				if (state.getOutgoingTransitions().isEmpty())
+					System.out.print("Csapda: ");
+				
+				if (!state.getName().equals(""))
+					System.out.println(state.getName());
+				else System.out.println("Nincs neve, javasol név: state" + i); 
+				
 			}
+			
+			if(content instanceof Transition) {
+				Transition transition = (Transition) content;
+				System.out.println(transition.getSource().getName() + " -> " + transition.getTarget().getName() );
+			}
+			
+			
 		}
+		
 		
 		// Transforming the model into a graph representation
 		String content = model2gml.transform(root);

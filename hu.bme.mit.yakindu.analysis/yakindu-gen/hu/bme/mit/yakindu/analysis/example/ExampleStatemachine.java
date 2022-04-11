@@ -329,12 +329,7 @@ public class ExampleStatemachine implements IExampleStatemachine {
 		
 		if (try_transition) {
 			if (react()==false) {
-				if (sCInterface.start) {
-					exitSequence_main_region_Init();
-					enterSequence_main_region_White_default();
-				} else {
-					did_transition = false;
-				}
+				did_transition = false;
 			}
 		}
 		return did_transition;
@@ -378,7 +373,12 @@ public class ExampleStatemachine implements IExampleStatemachine {
 						
 						enterSequence_main_region_White_default();
 					} else {
-						did_transition = false;
+						if (sCInterface.start) {
+							exitSequence_main_region_White();
+							enterSequence_main_region_White_default();
+						} else {
+							did_transition = false;
+						}
 					}
 				}
 			}
